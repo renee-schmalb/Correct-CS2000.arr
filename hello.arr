@@ -6,7 +6,6 @@ overlay-xy(text-font("STOP", 80, "white", "Treasure Map Deadhand", "decorative",
 red-circle = circle(30, "solid", "red")
 expression = 5 * 2
 EXPRESSION = 10 + 2
-10 - 4
 width = 30
 height = 30 * 3
 blue-square = square(40, "solid", "blue")
