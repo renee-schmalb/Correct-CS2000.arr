@@ -21,3 +21,11 @@ where:
   area-rectangle(10, 40) is 400
   area-rectangle(5, 2) is 10
 end
+
+
+fun color-cake-layer(COLOR1 :: String, COLOR2 :: String, COLOR3 :: String) :
+  doc: "creates 3 colorful rectangles as a layers of a cake"
+  above(rectangle(10, 50, "solid", "yellow"), above(rectangle(150, 40, "solid", COLOR1), above(rectangle(150, 40, "solid", COLOR2), rectangle(150, 40, "solid", COLOR3))))
+end
+
+
