@@ -14,6 +14,10 @@ end
 #2º Step: create a docstring to explain what the function             does
 
 
+# ------------ Class Activities -------------- #
+
+
+
 fun area-rectangle(WIDTH :: Number, HEIGHT :: Number) -> Number : 
   doc: "computes area of a rectangle"
   WIDTH * HEIGHT
@@ -25,9 +29,9 @@ end
 
 fun three-layer-cake(COLOR1 :: String, COLOR2 :: String, COLOR3 :: String) -> Image:
   doc: "takes each color to create 3 colorful layers for a cake with a caddle on top"
-  above(rectangle(10, 50, "solid", "yellow"), above(rectangle(150, 40, "solid", COLOR1), above(rectangle(150, 40, "solid", COLOR2), rectangle(150, 40, "solid", COLOR3))))
+  above(radial-star(32, 10, 12, "solid", "orange"), above(rectangle(10, 50, "solid", "yellow"), above(rectangle(150, 40, "solid", COLOR1), above(rectangle(150, 40, "solid", COLOR2), rectangle(150, 40, "solid", COLOR3)))))
 where: 
-  three-layer-cake("blue", "white", "pink") is above(rectangle(10, 50, "solid", "yellow"), above(rectangle(150, 40, "solid", "blue"), above(rectangle(150, 40, "solid", "white"), rectangle(150, 40, "solid", "pink"))))
+  three-layer-cake("blue", "white", "pink") is above(radial-star(32, 10, 12, "solid", "orange"), above(rectangle(10, 50, "solid", "yellow"), above(rectangle(150, 40, "solid", "blue"), above(rectangle(150, 40, "solid", "white"), rectangle(150, 40, "solid", "pink")))))
 end
 
 fun cost-personalized-tshirt(SENTENCE :: String) -> Number : 
@@ -37,6 +41,3 @@ where:
   cost-personalized-tshirt("Go Team!") is 5 + (string-length("Go Team!") * 0.10)
   cost-personalized-tshirt("Hello World") is 5 + (string-length("Hello World") * 0.10)
 end
-
-
-
