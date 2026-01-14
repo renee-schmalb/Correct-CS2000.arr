@@ -1,5 +1,5 @@
 use context dcic2024
-# Day 4 - Function # -------------------------------------------
+# Day 4 - Function # --------------------------------------
 
 fun three-stripe-flag(TOP, MIDDLE, BOTTOM): above(rectangle(120, 30, "solid", TOP), above(rectangle(120, 30, "solid", MIDDLE), rectangle(120, 30, "solid", BOTTOM)))
 end
