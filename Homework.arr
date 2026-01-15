@@ -150,3 +150,34 @@ fun cost-pen-order2(AMOUNT :: Number, MESSAGE :: String) -> Number :
 where:
 cost-pen-order2(10, "Go Titans!") is (10 * 0.25) + (string-length("Go Titans!") * 0.02)
 end
+
+
+fun ticket-purchase(AMOUNT :: Number, IS-SENIOR :: Boolean) -> Number :
+  doc: "calculates the total price of a ticket purchase, where each ticket costs $10, but there is a 15% discount if the buyer is a senior or if they buy more than 5 tickets"
+  if IS-SENIOR == true :
+  (AMOUNT * 10) * 0.85
+  else if (AMOUNT > 5) :
+    (AMOUNT * 10) * 0.85
+  else:
+    (AMOUNT * 10) 
+  end
+where:
+  ticket-purchase(1, true) is (1 * 10) * 0.85
+  ticket-purchase(6, false) is  (6 * 10) * 0.85
+  ticket-purchase(2, false) is  (2 * 10)
+end
+  
+
+fun ticket-purchase2(AMOUNT :: Number, IS-SENIOR :: Boolean) -> Number :
+  doc: "calculates the total price of a ticket purchase, where each ticket costs $10, but there is a 15% discount if the buyer is a senior or if they buy more than 5 tickets"
+  if (IS-SENIOR == true) or (AMOUNT > 5):
+  (AMOUNT * 10) * 0.85
+  else:
+    (AMOUNT * 10) 
+  end
+where:
+  ticket-purchase2(1, true) is (1 * 10) * 0.85
+  ticket-purchase2(6, false) is  (6 * 10) * 0.85
+  ticket-purchase2(2, false) is  (2 * 10)
+end
+  
