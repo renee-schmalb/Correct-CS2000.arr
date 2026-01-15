@@ -7,7 +7,7 @@ use context dcic2024
 
 
 fun choose-hat(TEMP-IN-F :: Number) -> String :
-  doc: "Tells user to wear a sun or winter hat, or neither hat, based on temperature"
+  doc: "Tells user to wear sun or winter hat, or neither hat, based on temperature"
   if (TEMP-IN-F >= 80) :
     "Wear sun hat"
   else if (TEMP-IN-F < 50) :
