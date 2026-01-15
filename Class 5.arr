@@ -7,16 +7,18 @@ use context dcic2024
 
 
 fun choose-hat(TEMP-IN-F :: Number) -> String :
-  doc: "Tells user to wear a sun hat when the temperature is at least 80F"
+  doc: "Tells user to wear a sun or winter hat, or neither hat, based on temperature"
   if (TEMP-IN-F >= 80) :
     "Wear sun hat"
+  else if (TEMP-IN-F < 50) :
+      "Wear winter hat"
   else:
-    "Do not wear sun hat"
+      "Do not wear any hat"
   end
 where:
-  choose-hat(90) is "Wear sun hat"
-  choose-hat(80) is "Wear sun hat"
-  choose-hat(70) is "Do not wear sun hat"
+    choose-hat(80) is "Wear sun hat"
+    choose-hat(49) is "Wear winter hat"
+    choose-hat(70) is "Do not wear any hat"
 end
   
 
@@ -33,4 +35,4 @@ fun decide-skill-assessment(LEC-NUM :: Number) -> String :
     decide-skill-assessment(6) is "Ready"
   end
 
-"Hello""
+
