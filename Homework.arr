@@ -106,3 +106,47 @@ fun shipping-cost3(COST-PEN-ORDER :: Number) -> Number :
   shipping-cost3(30.1) is 30.1 + 12
 end
 
+
+#An online-advertising firm needs to determine whether to show an ad for a skateboarding park to website users. Write a function show-ad that takes the age and haircolor of an individual user and returns true if the user is between the ages of 9 and 18 and has either pink or purple hair.
+
+#Try writing this two ways: once with if expressions and once using just boolean operations.
+
+
+fun show-ad(AGE :: Number, HAIRCOLOR :: String) -> Boolean : 
+doc: "confirms if the conditions, age between 9 and 18, and hair color pink or purple, are true to show up an ad to a user"
+  if (AGE >= 9) and (AGE <= 18) and ((HAIRCOLOR ==  "purple") or (HAIRCOLOR == "pink")) :
+    true
+  else:
+    false
+  end
+  where:
+  show-ad(9, "purple") is true
+  show-ad(20, "pink") is false
+  show-ad(16, "brown") is false
+  show-ad(30, "yellow") is false
+end
+
+# Suppose we want to compute the wages of a worker. The worker is paid $10 for every hour up to the first 40 hours, and is paid $15 for every extra hour. Let's say hours contains the number of hours they work, and suppose it's
+
+fun total-wage(HOURS :: Number) -> Number :
+  doc: "calculates the total wage of a worker"
+  if (HOURS <= 40) :
+    HOURS * 10
+  else:
+    (10 * 40) + (15 * (HOURS - 40))
+  end
+where:
+  total-wage(40) is 40 * 10
+  total-wage(0) is 0 * 10
+  total-wage(60) is (10 * 40) + (15 * (60 - 40))
+end
+
+
+shipping-cost3(cost-pen-order(10, "Adidas"))
+
+fun cost-pen-order2(AMOUNT :: Number, MESSAGE :: String) -> Number :
+  doc: "calculates the total cost of pen order, where each pen costs $0.25 plus $0.02 per each characther in the engraved message"
+  (AMOUNT * 0.25) + (string-length(MESSAGE) * 0.02)
+where:
+cost-pen-order2(10, "Go Titans!") is (10 * 0.25) + (string-length("Go Titans!") * 0.02)
+end
