@@ -180,4 +180,37 @@ where:
   ticket-purchase2(6, false) is  (6 * 10) * 0.85
   ticket-purchase2(2, false) is  (2 * 10)
 end
+
+# Day 6 --------------------------------------------------
+
+table: name, age
+  row: "Owen", 17
+  row: "Jule", 12
+  row: "Renee", 19
+end
+
+check: 
+  table: name, age
+    row: "Owen", 17
+    row: "Jule", 12
+    row: "Renee", 19
+end
+  is-not
+  table: age, name
+    row: 17, "Owen"
+    row: 12, "Jules"
+    row: "Renee", 19
+  end
+end
+
+people = table: age, name
+  row: "Owen", 17
+    row: "Jule", 12
+    row: "Renee", 19
+end
   
+Shuttle = table: month, driver-id
+  row: "April", 6767
+  row: "October", 6969
+  row: "January", 9111
+end
