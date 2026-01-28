@@ -119,3 +119,5 @@ fun New-employees-table(t :: Table) -> Table:
   doc: "gives the new hourly wages, where the wages that previously were $20/hr, now have been raised by 10%"
   transform-column(t, "hourly-wage", new-hourly-wage)
 end
+
+New-employees-table(Employees)
