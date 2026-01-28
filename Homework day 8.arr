@@ -36,7 +36,7 @@ where:
 end
 
 #Verifies if the month was in the winter season and if there was less than 1000 riders"
-fun race2 = table: month, riders
+race2 = table: month, riders
     row: "January", 956
     row: "Febuary", 931
     row: "March", 867
@@ -49,4 +49,39 @@ fun race2 = table: month, riders
     row: "October", 1170
     row: "November", 1053
     row: "December", 1023
+end
+
+fun season-thousands-race(m :: Row, r :: Row) -> Boolean :
+  doc: "verifies if the race was in the winter and if there was at least 1000 riders"
+  if ((m["month"] == ("January")) or (m["month"] == ("Febuary")) or (m["month"] == ("November")) or (m["month"] == ("December"))) and (r["riders"] >= 1000) :
+    true
+  else:
+    false
   end
+where:
+  season-thousands-race(race2.row-n(0), race2.row-n(0)) is false
+  season-thousands-race(race2.row-n(4), race2.row-n(4)) is false
+  season-thousands-race(race2.row-n(10), race2.row-n(10)) is true
+end
+
+
+fun below-1k(r:: Row) -> Boolean:
+  doc: "Determines whether a row has less than 1000 riders"
+  r["riders"] < 1000
+where:
+  below-1k(race2.row-n(0)) is true
+  below-1k(race2.row-n(1)) is true
+  below-1k(race2.row-n(5)) is false
+end
+
+
+
+filter-with(race2, below-1k)
+
+order-by(race2, "riders", true)
+order-by(race2, "riders", false)
+# true = increasing order
+# false = decreasing order
+
+order-by(race2, "riders", true).row-n(0)["month"]
+# Tells you what is the very first row given the order estabilished
