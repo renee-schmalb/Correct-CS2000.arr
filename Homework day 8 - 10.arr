@@ -121,3 +121,18 @@ fun New-employees-table(t :: Table) -> Table:
 end
 
 New-employees-table(Employees)
+
+
+
+# Day 10 -------------------------------------------------
+wages-test =
+  table: hourly-wage
+    row: 16
+    row: 17
+    row: 20
+    row: 23
+    row: 30
+  end
+
+Employees-working-40hr = add-row(add-row(Employees.empty(), Employees.row-n(0)), Employees-row-n(3))
+
