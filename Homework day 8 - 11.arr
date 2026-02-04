@@ -134,5 +134,72 @@ wages-test =
     row: 30
   end
 
-Employees-working-40hr = add-row(add-row(Employees.empty(), Employees.row-n(0)), Employees-row-n(3))
+Employees-working-40hr = add-row(add-row(Employees.empty(), Employees.row-n(0)), Employees.row-n(3))
 
+
+class-trip = table: 
+  GRADE :: String,
+  NUMBER-OF-STUDENTS :: Number
+  row: "FRESHMEN", 40
+  row: "SOPHOMORE", 27
+  row: "JUNIORS", 36
+  row: "SENIORS", 45
+  row: "PG", 15
+end
+
+fun classfication-class-trip(r :: Row) -> String:
+  doc: "classifies how large is the grade groups going to the trip"
+  if r["NUMBER-OF-STUDENTS"] <= 25:
+    "small"
+  else if r["NUMBER-OF-STUDENTS"] >= 40:
+    "large"
+  else:
+    "medium"
+  end
+where:
+  classfication-class-trip(class-trip.row-n(0)) is "large"
+  classfication-class-trip(class-trip.row-n(1)) is "medium"
+  classfication-class-trip(class-trip.row-n(4)) is "small"
+end
+
+classified-trip = build-column(class-trip, "group size", classfication-class-trip)
+
+classified-trip
+
+
+# Day 11 -------------------------------------------------
+
+names = table:
+  NAME :: String
+  row: "Renee Schmalb"
+  row: "Ximena Perez"
+  row: "Rachel Schmalb"
+  row: "Gemma Lasko"
+  row: "Beatriz Sanchez"
+end
+
+
+fun separation(r :: Row) -> List: 
+  doc: "separates the first and the last names"
+  string-split(r["NAME"], " ")
+where:
+  separation(names.row-n(0)) is [list: "Renee", "Schmalb"]
+  separation(names.row-n(1)) is [list: "Ximena", "Perez"] 
+end
+
+
+fun first-name(r :: Row) -> String:
+  name-list = string-split(r["NAME"], " ")
+  name-list.get(0)
+end
+
+fun last-name(r :: Row) -> String:
+  name-list = string-split(r["NAME"], " ")
+  name-list.get(1)
+end
+
+updated1 = build-column(names, "FIRST NAME", first-name)
+updated2 = build-column(updated1, "LAST NAME", last-name)
+updated2
+
+ 
