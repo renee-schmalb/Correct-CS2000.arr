@@ -45,5 +45,13 @@ end
 
 fun normalize-phone(p :: String) -> String:
   doc: "eliminates parenthesis, hifens, and spaces so phone numbers are just NNNNNNNNNN"
-  string-replace("(", "") and string-replace(")", "") and string-replace("-", "") and string-replace(" ", "") 
+  step1 = string-replace(p, "(", "")
+  step2 = string-replace(step1, ")", "")
+  step3 = string-replace(step2, "-", "")
+  string-replace(step3, " ", "") 
+where:
+  normalize-phone("413 979 8064") is "4139798064"
+  normalize-phone("(413) 979 8064") is "4139798064"
+  normalize-phone("413-979-8064") is "4139798064"
+  normalize-phone("4139798064") is "4139798064"
 end
