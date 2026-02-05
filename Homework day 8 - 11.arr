@@ -200,6 +200,7 @@ end
 
 updated1 = build-column(names, "FIRST NAME", first-name)
 updated2 = build-column(updated1, "LAST NAME", last-name)
-updated2
 
+updated2
  
+# Day 12 -------------------------------------------------
