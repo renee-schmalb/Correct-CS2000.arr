@@ -1,4 +1,9 @@
 use context dcic2024
+include gdrive-sheets
+include data-source
+import math as M
+import statistics as S
+
 race = table: month, riders
   row: "January", 1770
   row: "March", 961
@@ -204,3 +209,22 @@ updated2 = build-column(updated1, "LAST NAME", last-name)
 updated2
  
 # Day 12 -------------------------------------------------
+
+ssid = "1Ks4ll5_8wyYK1zyXMm_21KORhagSMZ59dcr7i3qY6T4"
+cleaned-data =
+  load-table: name, email, tickcount, discount, delivery, zip
+    source: load-spreadsheet(ssid).sheet-by-name("Cleaned", true)
+    sanitize name using string-sanitizer
+    sanitize email using string-sanitizer
+    sanitize tickcount using num-sanitizer
+    sanitize discount using string-sanitizer
+    sanitize delivery using string-sanitizer
+    sanitize zip using string-sanitizer
+  end
+
+tickcounts = cleaned-data.get-column("tickcount")
+
+M.max(tickcounts)     # largest number in a list
+M.sum(tickcounts)     # sum of numbers in a list
+S.mean(tickcounts)    # mean (average) of numbers in a list
+S.median(tickcounts)  # median of numbers in a list
