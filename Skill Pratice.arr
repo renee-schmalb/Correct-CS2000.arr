@@ -67,14 +67,163 @@ end
 # Make a traffic light
 overlay-xy(circle(10, "solid", "red"),-10, -10, overlay-xy(circle(10, "solid", "green"),-10, -65, overlay-xy(circle(10, "solid", "yellow"),-10, -37, above(rectangle(40, 100, "solid", "dim-gray"), rectangle(10, 100, "solid", "beige")))))
 
-# 4 #
-# Convert from degrees to radiants
-POINT-A-LAT = 42.3505 = ~0.7391556648658585 radius
-POINT-A-LON = -71.1054 = ~-1.2410233459475761 radius
 
-POINT-B-LAT = 42.3430 = ~0.739024765171959 radius
-POINT-B-LON = -71.1020 = ~-1.2409640047530082 radius
+# --------------------- SKILL 2 ------------------------ #
 
-fun point-degree(COORDINATE :: Number) -> Number :
-(COORDINATE * PI) / 180
+
+students-table = table: 
+  NAME :: String,
+  CAMPUS :: String
+  row: "Renee", "Boston"
+  row: "Gemma", "New York"
+  row: "Rachel", "Miami"
+end
+
+fun find-scholars(r :: Row) -> Boolean:
+  doc: "selects only the students who are NOT in the Boston Campus"
+  r["CAMPUS"] <> "Boston"
+where:
+  find-scholars(students-table.row-n(0)) is false
+  find-scholars(students-table.row-n(1)) is true
+  find-scholars(students-table.row-n(2)) is true
+end
+
+filter-with(students-table, find-scholars)
+result = table:
+  NAME :: String,
+  CAMPUS :: String
+  row: "Gemma", "New York"
+  row: "Rachel", "Miami"
+end
+
+check: result is filter-with(students-table, find-scholars) end
+
+# OR
+
+students = table: 
+  name :: String,
+  campus :: String
+  row: "Renee", "Boston"
+  row: "Gemma", "New York"
+  row: "Rachel", "Miami"
+end
+
+
+fun scholars(t :: Table) -> Table:
+  doc: "generates a table with students who are NOT in the Boston Campus"
+  fun location-scholars(r :: Row) -> Boolean:
+  r["campus"] <> "Boston" end
+  filter-with(t, location-scholars)
+where:
+  block:
+    outcome = table:
+    name :: String,
+    campus :: String
+  row: "Gemma", "New York"
+  row: "Rachel", "Miami" end
+    scholars(students) is outcome
+end
+end
+
+
+# Design a function add-bad-year-column that, given a table with columns for year, costs, and revenues, adds a new column called "bad-year" that contains true if the costs exceed revenues for that year, and false otherwise.
+
+info = table:
+  Years :: Number,
+  Costs :: Number,
+  Revenue :: Number
+  row: 2001, 500, 800
+  row: 2003, 400, 300 
+  row: 2005, 450, 500
+end
+
+
+fun updated-info(t :: Table) -> Table:
+  doc: "informs the performance of a year as bad if cost was greater than revenue"
+  
+  fun add-bad-year-column(r :: Row) -> Boolean: 
+  r["Costs"] > r["Revenue"] end
+  build-column(t, "Performance", add-bad-year-column)
+  
+    where:
+    block: 
+    outcome2 = table:
+      Years :: Number,
+      Costs :: Number,
+      Revenue :: Number,
+      Performance :: Boolean
+      row: 2001, 500, 800, false
+      row: 2003, 400, 300, true 
+      row: 2005, 450, 500, false end
+      updated-info(info) is outcome2
+    end
+ 
+end
+
+
+# Design a function find-drought-risks that takes a table with "region", "rainfall-2023" and "rainfall-2024" columns and returns a new table containing only those regions where rainfall amounts decreased from 2023 to 2024.
+
+weather = table:
+  region :: String,
+  rainfall-2023 :: Number,
+  rainfall-2024 :: Number
+  row: "Maine", 110, 85
+  row: "Boston", 140, 120
+  row: "New York", 100, 107
+end
+
+fun risk-table(t :: Table) -> Table:
+    doc: "informs which regions present drought risks"
+    
+    fun find-drought-risks(r :: Row) -> Boolean:
+    r["rainfall-2023"] > r["rainfall-2024"] end
+  build-column(t, "drought-risk", find-drought-risks)
+    
+where:
+  block:
+    outcome3 = table:
+      region :: String,
+      rainfall-2023 :: Number,
+      rainfall-2024 :: Number,
+      drought-risk :: Boolean
+      row: "Maine", 110, 85, true
+      row: "Boston", 140, 120, true
+      row: "New York", 100, 107, false
+end
+    outcome3 is risk-table(weather)
+  end
+end
+
+
+
+restaurants = table:
+  name :: String,
+  dishes-sold-2023 :: Number,
+  dishes-sold-2024 :: Number,
+  dishes-sold-2025 :: Number,
+  better-performance-than-past-year :: Boolean
+  row: "Gyro Scope", 200, 250, 225, true
+  row: "El Jefes", 500, 430, 475, false
+  row: "Popeyes", 300, 325, 350, true
+end
+
+fun updated-table(t :: Table) -> Table: 
+  doc: "updates the perfomance column to consider 2024 vs 2025"
+  
+  fun new-comparison(r :: Row) -> Boolean:
+  r["dishes-sold-2024"] < r["dishes-sold-2025"] end
+  transform-column(t, "better-performance-than-past-year", new-comparison)
+  
+where:
+  block: outcome4 = table:
+      name :: String,
+      dishes-sold-2023 :: Number,
+      dishes-sold-2024 :: Number,
+      dishes-sold-2025 :: Number,
+      better-performance-than-past-year :: Boolean
+    row: "Gyro Scope", 200, 250, 225, false
+    row: "El Jefes", 500, 430, 475, true
+    row: "Popeyes", 300, 325, 350, true  end
+    updated-table(restaurants) is outcome4
+  end
 end
