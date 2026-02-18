@@ -1,4 +1,6 @@
 use context dcic2024
+import lists as L
+
 # --------------------- SKILL 1 ------------------------ #
 fun nm-square(NUMBER :: Number) -> Number :
   doc: "calculates the squared value of input"
@@ -195,13 +197,12 @@ end
 end
 
 
-
 restaurants = table:
   name :: String,
   dishes-sold-2023 :: Number,
   dishes-sold-2024 :: Number,
   dishes-sold-2025 :: Number,
-  better-performance-than-past-year :: Boolean
+  improvement-23-24 :: Boolean
   row: "Gyro Scope", 200, 250, 225, true
   row: "El Jefes", 500, 430, 475, false
   row: "Popeyes", 300, 325, 350, true
@@ -212,7 +213,7 @@ fun updated-table(t :: Table) -> Table:
   
   fun new-comparison(r :: Row) -> Boolean:
   r["dishes-sold-2024"] < r["dishes-sold-2025"] end
-  transform-column(t, "better-performance-than-past-year", new-comparison)
+  build-column(t, "improvement-24-25", new-comparison)
   
 where:
   block: outcome4 = table:
@@ -220,10 +221,45 @@ where:
       dishes-sold-2023 :: Number,
       dishes-sold-2024 :: Number,
       dishes-sold-2025 :: Number,
-      better-performance-than-past-year :: Boolean
-    row: "Gyro Scope", 200, 250, 225, false
-    row: "El Jefes", 500, 430, 475, true
-    row: "Popeyes", 300, 325, 350, true  end
+      improvement-23-24 :: Boolean,
+      improvement-24-25 :: Boolean
+      row: "Gyro Scope", 200, 250, 225, true, false
+      row: "El Jefes", 500, 430, 475, false, true
+    row: "Popeyes", 300, 325, 350, true, true  end
     updated-table(restaurants) is outcome4
   end
 end
+
+
+PARKS = table: 
+  name :: String, 
+  state :: String, 
+  established :: Number, 
+  area-sq-miles :: Number, 
+  visitors-2024 :: Number
+  row: "Yellowstone", "Wyoming", 1872, 3472, 4500000
+  row: "Yosemite", "California", 1890, 1168, 3900000  
+  row: "Grand Canyon", "Arizona", 1919, 1904, 6400000
+  row: "Zion", "Utah", 1919, 229, 4700000
+  row: "Rocky Mountain", "Colorado", 1915, 415, 4300000
+  row: "Acadia", "Maine", 1916, 198, 2500000
+  row: "Great Smoky Mountains", "Tennessee", 1934, 816, 12100000
+  row: "Bryce Canyon", "Utah", 1928, 56, 2900000
+end
+
+PARKS.row-n(0)
+PARKS.row-n(0)["name"] 
+
+oldests-to-newest = order-by(PARKS, "established", true)
+
+
+fun Utah-identifiation(r :: Row) -> Boolean:
+r["state"] == "Utah" end
+
+
+Utah-only = filter-with(PARKS, Utah-identifiation)
+Utah-only.get-column("area-sq-miles")
+
+Popular-only = filter-with(PARKS, lam(r): r["visitors-2024"] > 4000000 end)
+
+Old-only = filter-with(PARKS, lam(r): r["established"] < 1920 end)
