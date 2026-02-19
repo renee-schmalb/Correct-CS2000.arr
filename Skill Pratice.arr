@@ -263,3 +263,158 @@ Utah-only.get-column("area-sq-miles")
 Popular-only = filter-with(PARKS, lam(r): r["visitors-2024"] > 4000000 end)
 
 Old-only = filter-with(PARKS, lam(r): r["established"] < 1920 end)
+
+
+classroom = table:
+  name :: String,
+  grade-A :: Number,
+  grade-B :: Number
+  row: "Emily", 90, 80
+  row: "John", 50, 30
+  row: "Pedro", 20, 20
+end
+
+# Claude exercises ----------------------------------------------------
+
+fun pass-table(t :: Table) -> Table:
+  doc: "adds a column indicating if student passed"
+  
+  fun pass-column(r :: Row) -> Boolean:
+  ((r["grade-A"] + r["grade-B"]) / 2) > 70 end
+  build-column(t, "passed", pass-column)
+  
+  
+where:block:
+    outcome5 = table: 
+      name :: String,
+      grade-A :: Number, 
+      grade-B :: Number,
+      passed :: Boolean
+      row: "Emily", 90, 80, true
+      row: "John", 50, 30, false
+      row: "Pedro", 20, 20, false
+end
+    pass-table(classroom) is outcome5
+  end
+end
+
+# ----------------------------------------
+
+products = table: 
+  product :: String,
+  category :: String,
+  price :: Number
+  row: "coditioner", "self-care", 20
+  row: "tissue", "cleaning products", 4
+  row: "water bottle", "beverages", 2
+end
+
+
+fun discount-table(t :: Table) -> Table:
+  doc: "takes the price of products and add a 10% discount"
+  
+  fun discount-applied(PRICE :: Number) -> Number:
+  PRICE * 0.9 end
+  transform-column(t, "price", discount-applied)
+  
+where: block:
+    outcome6 = table: 
+  product :: String,
+  category :: String,
+  price :: Number
+      row: "coditioner", "self-care", 18
+      row: "tissue", "cleaning products", 3.6
+      row: "water bottle", "beverages", 1.8
+end
+    discount-table(products) is outcome6
+  end
+end
+
+# ----------------------------------------
+
+houses = table:
+  location :: String,
+  value :: Number
+  row: "6769 Newbury ST", 500000
+  row: "711 Mass Ave", 350000
+  row: "789 State ST", 470000
+end
+
+fun informed-table(t :: Table) -> Table:
+  doc: "only gives the houses above $400,000"
+  
+  fun comparision-value(r :: Row) -> Boolean:
+    r["value"] > 400000 end
+  filter-with(t, comparision-value)
+  
+where: block:
+    outcome7 = table:
+      location :: String, 
+      value :: Number 
+  row: "6769 Newbury ST", 500000
+  row: "789 State ST", 470000
+end
+    outcome7 is informed-table(houses)
+  end
+end
+
+informed-table(houses).get-column("location")
+
+# ----------------------------------------
+
+undergrads = table:
+  name :: String,
+  final-grade :: Number
+  row: "Svaroskwy Highlander", 99
+  row: "Jonhansa Cabaret", 67
+  row: "Maxinne Portdancer", 88
+end
+
+fun ranked-table(t :: Table) -> Table:
+  doc: "ranks the undergrads by grade performance"
+  order-by(t, "final-grade", false)
+  
+where: block:
+    outcome7 = table:
+      name :: String,
+      final-grade :: Number 
+      row: "Svaroskwy Highlander", 99 
+      row: "Maxinne Portdancer", 88 
+      row: "Jonhansa Cabaret", 67 
+end
+    outcome7 is ranked-table(undergrads)
+  end
+end
+
+# ----------------------------------------
+
+
+employees = table:
+  name :: String,
+  department :: String,
+  n-sales :: Number
+  row: "Sarah", "tech", 300
+  row: "Rob", "bed", 400
+  row: "Michelle", "sports", 250
+  row: "Lady Gaga", "music", 100
+end
+
+fun sales-performance(t :: Table) -> Table:
+  doc: "tells if the sales person had a good performance"
+  
+  fun evaluation(r :: Row) -> Boolean:
+  r["n-sales"] >= 300 end
+  filter-with(employees, evaluation) 
+  
+where: block:
+    outcome8 = table: 
+      name :: String,
+      department :: String,
+      n-sales :: Number
+      row: "Sarah", "tech", 300
+      row: "Rob", "bed", 400
+    end
+    outcome8 is sales-performance(employees) 
+  end
+end
+ 
