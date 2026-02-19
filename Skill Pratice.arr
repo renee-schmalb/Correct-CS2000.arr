@@ -72,36 +72,6 @@ overlay-xy(circle(10, "solid", "red"),-10, -10, overlay-xy(circle(10, "solid", "
 
 # --------------------- SKILL 2 ------------------------ #
 
-
-students-table = table: 
-  NAME :: String,
-  CAMPUS :: String
-  row: "Renee", "Boston"
-  row: "Gemma", "New York"
-  row: "Rachel", "Miami"
-end
-
-fun find-scholars(r :: Row) -> Boolean:
-  doc: "selects only the students who are NOT in the Boston Campus"
-  r["CAMPUS"] <> "Boston"
-where:
-  find-scholars(students-table.row-n(0)) is false
-  find-scholars(students-table.row-n(1)) is true
-  find-scholars(students-table.row-n(2)) is true
-end
-
-filter-with(students-table, find-scholars)
-result = table:
-  NAME :: String,
-  CAMPUS :: String
-  row: "Gemma", "New York"
-  row: "Rachel", "Miami"
-end
-
-check: result is filter-with(students-table, find-scholars) end
-
-# OR
-
 students = table: 
   name :: String,
   campus :: String
@@ -274,7 +244,7 @@ classroom = table:
   row: "Pedro", 20, 20
 end
 
-# Claude exercises ----------------------------------------------------
+# Claude exercises -------------------------------------------------
 
 fun pass-table(t :: Table) -> Table:
   doc: "adds a column indicating if student passed"
