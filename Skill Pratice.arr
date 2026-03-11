@@ -388,3 +388,115 @@ where: block:
   end
 end
  
+# Design a function list-of-squares that takes a list of numbers, and returns a list where each element is the square of N where N is the element from the list. You must use for each, rather than a built in list function or recursion.
+
+fun list-of-squares(l :: List<Number>) -> List<Number> block:
+  doc: "squares each element of a given list"
+  
+  var result = [list: ]
+  for each(num from l):
+    result := result + [list: num * num]
+  end
+result
+where:
+  list-of-squares([list: 0, 1, 2, 3]) is [list: 0, 1, 4, 9]
+  list-of-squares([list: 5, 5]) is [list: 25, 25]
+  list-of-squares([list: ]) is [list: ]
+end
+
+# Design a function has-positive that takes a list of numbers, and returns true if at least one number in the list is positive, false if none are. You must use for each, rather than a built in list function or recursion.
+
+fun has-positive(l :: List<Number>) -> Boolean block:
+  doc: "verifies if a list has at least one positive number"
+  
+  var result2 = false
+  for each(num from l):
+    if num > 0: 
+      result2 := true
+    else: 
+      result2 := false
+    end
+  end
+  result2
+where:
+  has-positive([list: -15, -10, 0, 1]) is true
+  has-positive([list: 5, 5, 5]) is true
+  has-positive([list: -1, -2, -3]) is false
+  has-positive([list: ]) is false
+end
+
+# Sample question: Design a data definition for Beverage that can be either coffee with number of shots of espresso, or tea with name and brew-time in minutes. Then, write a function is-strong that returns true if the beverage is a coffee with more than 2 shots, or a tea brewed for more than 5 minutes.
+
+data Beverage:
+  | coffee(espresso :: Number)
+  | tea(name :: String, brew-time :: Number)
+end
+
+fun is-strong(b :: Beverage) -> Boolean:
+  doc: "verifies if a given beverage is strong"
+  cases (Beverage) b:
+    | coffee(shots) => shots > 2
+    | tea(name, brew-time) => brew-time > 5
+  end
+where: 
+  coffee1 = coffee(4)
+  coffee2 = coffee(1)
+  tea1 = tea("Black Tea", 6)
+  tea2 = tea("Green Tea", 5) 
+  
+  is-strong(coffee1) is true
+  is-strong(coffee2) is false
+  is-strong(tea1) is true
+  is-strong(tea2) is false
+end
+
+# Design a data definition for Restaurant that can be either yahoo with name and stars, or health-score with name and score. Then, write a function is-reputable that returns true if the resturant is a yahoo with at least 4 stars, or a health-score with score at least 85.
+
+data Restaurant:
+  | yahoo(name :: String, stars :: Number)
+  | health-score(name :: String, score :: Number)
+end
+
+fun is-reputable(r :: Restaurant) -> Boolean:
+  doc: "verifies if a restaurant is reputable (yahoo > 4 stars, health-score > 85"
+  cases (Restaurant) r:
+    | yahoo(name, stars) => stars > 4
+    | health-score(name, score) => score > 85
+  end
+where:
+  yahoo1 = yahoo("Dunkin", 5) 
+  yahoo2 = yahoo("Popeyes", 2)
+  health1 = health-score("Panera", 70)
+  health2 = health-score("Gyroscope", 90)
+  
+  is-reputable(yahoo1) is true
+  is-reputable(yahoo2) is false
+  is-reputable(health1) is false
+  is-reputable(health2) is true
+end
+
+# Design a data definition for Book that can be either rating with title, stars, and num-reviews, or sales-ranking with title and position. Then, write a function is-popular that returns true if the book is a rating with num-reviews of at least 500, or a sales-ranking with position less than 500.
+
+
+data Book:
+  | rating(title :: String, stars :: Number, num-reviews :: Number)
+  | sales-ranking(title :: String, position :: Number)
+end
+
+fun is-popular(b :: Book) -> Boolean:
+  doc: "verifies if a book is popular (rating with > 500 num-reviews or sales ranking < 500)"
+  cases (Book) b:
+    | rating(title, stars, num-reviews) => num-reviews > 500
+    | sales-ranking(title, position) => position < 500
+  end
+where:
+  book1 = rating("1984", 5.0, 10000)
+  book2 = rating("Secret Garden", 3.5, 500)
+  book3 = sales-ranking("Flowers to Algernon", 501)
+  book4 = sales-ranking("The Earth of Mankind", 499)
+
+  is-popular(book1) is true
+  is-popular(book2) is false
+  is-popular(book3) is false
+  is-popular(book4) is true
+end
